@@ -1,0 +1,28 @@
+[200~<!DOCTYPE html>
+<html>
+<head>
+    <title>Three-Tier Architecture App</title>
+</head>
+<body>
+
+    <h1>Welcome to the Three-Tier Architecture App!</h1>
+
+    <p id="backend-response">
+        Connecting to backend...
+    </p>
+
+    <script>
+        fetch('/api')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('backend-response').innerHTML =
+                    'Backend says: ' + data;
+            })
+            .catch(error => {
+                document.getElementById('backend-response').innerText =
+                    'Error connecting to backend.';
+            });
+    </script>
+
+</body>
+</html>
