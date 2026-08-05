@@ -2,15 +2,21 @@
 
 ## Project Overview
 
-This project demonstrates the design and deployment of a secure, scalable, and highly available Three-Tier Architecture on AWS.
+This project demonstrates the design and deployment of a secure, scalable, and production-style **Three-Tier Architecture on AWS**.
 
 The application is divided into three layers:
 
-- **Presentation Tier** – Frontend EC2 running NGINX
-- **Application Tier** – Backend EC2 running Python Flask
-- **Data Tier** – Amazon RDS MySQL
+* **Presentation Tier** – Frontend EC2 running NGINX
+* **Application Tier** – Backend EC2 running Python Flask
+* **Data Tier** – Amazon RDS MySQL
 
-The architecture uses Amazon VPC, public and private subnets, Application Load Balancers (ALB), Launch Templates, Auto Scaling Groups (ASG), and Amazon RDS to build a production-style web application.
+The architecture uses **Amazon VPC**, **public and private subnets**, **Application Load Balancers (ALB)**, **Launch Templates**, **Auto Scaling Groups (ASG)**, and **Amazon RDS MySQL** to build a highly available web application.
+
+---
+
+# Architecture Diagram
+
+![Architecture Diagram](screenshots/architecture-diagram.png)
 
 ---
 
@@ -20,66 +26,70 @@ The architecture uses Amazon VPC, public and private subnets, Application Load B
                     Users
                       │
                       ▼
-     Internet-Facing Application Load Balancer
+      Internet-Facing Application Load Balancer
                       │
                       ▼
-           Frontend EC2 (NGINX)
+             Frontend EC2 (NGINX)
                       │
                       ▼
          NGINX Reverse Proxy (/api)
                       │
                       ▼
- Internal Backend Application Load Balancer
+     Internal Backend Application Load Balancer
                       │
                       ▼
-        Backend EC2 (Python Flask)
+          Backend EC2 (Python Flask)
                       │
                       ▼
-             Amazon RDS MySQL
+              Amazon RDS MySQL
 ```
+
+---
+
+# Project Highlights
+
+* Designed and deployed a production-style AWS Three-Tier Architecture.
+* Configured secure networking using Amazon VPC.
+* Implemented public and private subnet architecture.
+* Configured NGINX Reverse Proxy for backend API communication.
+* Deployed a Python Flask application on Amazon EC2.
+* Connected the backend application with Amazon RDS MySQL.
+* Implemented Application Load Balancers and Target Groups.
+* Configured Launch Templates and Auto Scaling Groups.
+* Performed troubleshooting for networking, load balancing, and backend connectivity.
 
 ---
 
 # How It Works
 
 1. Users access the application through the Frontend Application Load Balancer.
-2. The Frontend ALB forwards requests to the Frontend EC2 instance running NGINX.
+2. The Frontend ALB forwards incoming requests to the Frontend EC2 instance.
 3. NGINX serves the frontend web application.
-4. API requests are forwarded to the Backend ALB using the `/api` reverse proxy.
-5. The Backend ALB routes requests to the Backend EC2 instance.
-6. The Flask application processes the request.
-7. Flask connects to Amazon RDS MySQL to retrieve or store data.
-8. The response is returned through the Backend ALB, Frontend EC2, and Frontend ALB back to the user.
+4. API requests are forwarded through the `/api` reverse proxy to the Internal Backend ALB.
+5. The Backend ALB routes requests to the Backend EC2 instance running the Flask application.
+6. The Flask application processes the request and communicates with Amazon RDS MySQL.
+7. Amazon RDS returns the requested data.
+8. The response is sent back through the backend, frontend, and finally displayed in the user's browser.
 
 ---
 
 # AWS Services Used
 
-- Amazon VPC
-- Public Subnets
-- Private Subnets
-- Internet Gateway
-- NAT Gateway
-- Route Tables
-- Security Groups
-- Bastion Host
-- Amazon EC2
-- Application Load Balancer (ALB)
-- Target Groups
-- Launch Template
-- Auto Scaling Group
-- Amazon RDS MySQL
-
----
-
-# Tech Stack
-
-- AWS
-- Python
-- Flask
-- HTML
-- NGINX
-- MySQL
+* Amazon VPC
+* Public Subnets
+* Private Subnets
+* Internet Gateway
+* NAT Gateway
+* Route Tables
+* Security Groups
+* Bastion Host
+* Amazon EC2
+* Application Load Balancer (ALB)
+* Target Groups
+* Launch Template
+* Auto Scaling Group
+* Amazon RDS MySQL
+* Amazon Machine Image (AMI)
 
 ---
 
@@ -87,18 +97,18 @@ The architecture uses Amazon VPC, public and private subnets, Application Load B
 
 ## Frontend
 
-- HTML
-- NGINX
+* HTML
+* NGINX
 
 ## Backend
 
-- Python
-- Flask
-- PyMySQL
+* Python
+* Flask
+* PyMySQL
 
 ## Database
 
-- Amazon RDS MySQL
+* Amazon RDS MySQL
 
 ---
 
@@ -106,7 +116,7 @@ The architecture uses Amazon VPC, public and private subnets, Application Load B
 
 ```text
 aws-three-tier-architecture/
-
+│
 ├── frontend/
 │   ├── index.html
 │   └── nginx.conf
@@ -119,6 +129,18 @@ aws-three-tier-architecture/
 │   └── schema.sql
 │
 ├── screenshots/
+│   ├── architecture-diagram.png
+│   ├── 01-vpc-resource-map.png
+│   ├── 02-security-groups.png
+│   ├── 03-ec2-instances.png
+│   ├── 04-application-load-balancer.png
+│   ├── 05-frontend-target-unhealthy.png
+│   ├── 06-frontend-tg-asg-healthy.png
+│   ├── 07-backend-tg-healthy.png
+│   ├── 08-auto-scaling-group.png
+│   ├── 09-amazon-rds-database.png
+│   ├── 10-backend-504-bad-gateway-error.png
+│   └── 11-application-working-output.png
 │
 └── README.md
 ```
@@ -127,25 +149,15 @@ aws-three-tier-architecture/
 
 # Features
 
-- Three-Tier Architecture
-- Public and Private Subnet Design
-- High Availability
-- Application Load Balancing
-- Auto Scaling
-- Secure Network Architecture
-- NGINX Reverse Proxy
-- Python Flask Backend
-- Amazon RDS MySQL Integration
-
----
-
-# Deployment Status
-
-- Frontend deployed on Amazon EC2 using NGINX.
-- Backend deployed on Amazon EC2 using Python Flask.
-- Database hosted on Amazon RDS MySQL.
-- Frontend and Backend connected through Application Load Balancers.
-- Successfully verified end-to-end application connectivity.
+* Three-Tier Architecture
+* Secure Network Design
+* Public and Private Subnets
+* Application Load Balancer
+* Auto Scaling Group
+* Launch Template
+* Amazon RDS MySQL Integration
+* NGINX Reverse Proxy
+* Python Flask Backend
 
 ---
 
@@ -160,26 +172,26 @@ location /api/ {
 }
 ```
 
-> Replace `BACKEND_ALB_DNS` with your Backend Application Load Balancer DNS name before deployment.
+> **Note:** Replace `BACKEND_ALB_DNS` with your actual Backend ALB DNS before deployment.
 
 ---
 
 # What I Learned
 
-- Designed and deployed an AWS Three-Tier Architecture.
-- Created and configured an Amazon VPC.
-- Configured Public and Private Subnets.
-- Configured Internet Gateway and NAT Gateway.
-- Created Route Tables.
-- Configured Security Groups.
-- Used a Bastion Host to securely access private EC2 instances.
-- Deployed a Python Flask application.
-- Configured NGINX as a reverse proxy.
-- Connected Flask with Amazon RDS MySQL.
-- Configured Application Load Balancers and Target Groups.
-- Created Launch Templates.
-- Configured Auto Scaling Groups.
-- Improved troubleshooting skills for networking, load balancing, and application deployment.
+* Designed and deployed a complete AWS Three-Tier Architecture.
+* Created a custom Amazon VPC.
+* Configured Public and Private Subnets.
+* Configured Internet Gateway and NAT Gateway.
+* Created Route Tables.
+* Configured Security Groups.
+* Used a Bastion Host to securely access private EC2 instances.
+* Deployed a Python Flask application on Amazon EC2.
+* Configured NGINX as a Reverse Proxy.
+* Connected Flask with Amazon RDS MySQL.
+* Configured Application Load Balancers and Target Groups.
+* Created Launch Templates.
+* Configured Auto Scaling Groups.
+* Improved troubleshooting skills related to networking, load balancing, and application deployment.
 
 ---
 
@@ -189,29 +201,29 @@ location /api/ {
 
 **Issue**
 
-Backend EC2 instances failed Application Load Balancer health checks.
+Backend EC2 instances failed ALB health checks.
 
 **Fix**
 
-- Verified Flask application was running on port 5000.
-- Corrected Security Group rules.
-- Updated Target Group health check configuration.
+* Verified Flask was running on port **5000**.
+* Corrected Security Group rules.
+* Updated Target Group health check configuration.
 
 ---
 
-## 2. Backend Bad Gateway
+## 2. Backend 504 Gateway Timeout
 
 **Issue**
 
-The frontend displayed a **502 Bad Gateway** because NGINX could not communicate with the backend application.
+NGINX returned a **504 Gateway Timeout** because it could not communicate with the backend application.
 
 **Fix**
 
-- Verified the backend Flask application was running.
-- Updated the NGINX reverse proxy configuration.
-- Corrected the Backend ALB DNS.
-- Verified backend connectivity using `curl`.
-- Confirmed the Backend Target Group became healthy.
+* Verified the Flask application was running.
+* Updated the NGINX Reverse Proxy configuration.
+* Corrected the Backend ALB DNS.
+* Verified backend connectivity using `curl`.
+* Confirmed the Backend Target Group became healthy.
 
 ---
 
@@ -223,8 +235,8 @@ Unable to connect to private EC2 instances using SSH.
 
 **Fix**
 
-- Corrected Security Group rules.
-- Successfully connected through the Bastion Host.
+* Corrected Security Group rules.
+* Successfully connected through the Bastion Host.
 
 ---
 
@@ -236,9 +248,9 @@ The Flask application failed to connect to Amazon RDS MySQL.
 
 **Fix**
 
-- Verified the RDS endpoint.
-- Corrected database credentials.
-- Allowed MySQL port (3306) in the RDS Security Group.
+* Verified the RDS endpoint.
+* Corrected the database credentials.
+* Allowed MySQL port **3306** in the RDS Security Group.
 
 ---
 
@@ -250,94 +262,88 @@ Instances launched by the Auto Scaling Group were unhealthy.
 
 **Fix**
 
-- Updated the Launch Template.
-- Corrected the User Data script.
-- Verified Target Group health checks.
+* Updated the Launch Template.
+* Corrected the User Data script.
+* Verified Target Group health checks.
 
 ---
 
 # Project Screenshots
 
-## 1. AWS Three-Tier Architecture
+## 1. VPC Resource Map
 
-![Architecture](screenshots/01-aws-three-tier-architecture.png)
-
----
-
-## 2. VPC Resource Map
-
-![VPC Resource Map](screenshots/02-vpc-resource-map.png)
+![VPC Resource Map](screenshots/01-vpc-resource-map.png)
 
 ---
 
-## 3. Security Groups
+## 2. Security Groups
 
-![Security Groups](screenshots/03-security-groups.png)
-
----
-
-## 4. EC2 Instances
-
-![EC2 Instances](screenshots/04-ec2-instances.png)
+![Security Groups](screenshots/02-security-groups.png)
 
 ---
 
-## 5. Frontend Application Load Balancer
+## 3. EC2 Instances
 
-![Frontend ALB](screenshots/05-frontend-alb.png)
-
----
-
-## 6. Backend Application Load Balancer
-
-![Backend ALB](screenshots/06-backend-alb.png)
+![EC2 Instances](screenshots/03-ec2-instances.png)
 
 ---
 
-## 7. Frontend Target Group Healthy
+## 4. Application Load Balancer
 
-![Frontend Target Group](screenshots/07-frontend-target-group.png)
-
----
-
-## 8. Backend Target Group Healthy
-
-![Backend Target Group](screenshots/08-backend-target-group.png)
+![Application Load Balancer](screenshots/04-application-load-balancer.png)
 
 ---
 
-## 9. Launch Template
+## 5. Frontend Target Group Unhealthy
 
-![Launch Template](screenshots/09-launch-template.png)
-
----
-
-## 10. Auto Scaling Group
-
-![Auto Scaling Group](screenshots/10-auto-scaling-group.png)
+![Frontend Target Group Unhealthy](screenshots/05-frontend-target-unhealthy.png)
 
 ---
 
-## 11. Backend Bad Gateway Troubleshooting
+## 6. Frontend Target Group Healthy
 
-![Backend Bad Gateway](screenshots/11-backend-bad-gateway.png)
+![Frontend Target Group Healthy](screenshots/06-frontend-tg-asg-healthy.png)
 
 ---
 
-## 12. Application Working Output
+## 7. Backend Target Group Healthy
 
-![Application Working Output](screenshots/12-application-working-output.png)
+![Backend Target Group Healthy](screenshots/07-backend-tg-healthy.png)
+
+---
+
+## 8. Auto Scaling Group
+
+![Auto Scaling Group](screenshots/08-auto-scaling-group.png)
+
+---
+
+## 9. Amazon RDS MySQL
+
+![Amazon RDS MySQL](screenshots/09-amazon-rds-database.png)
+
+---
+
+## 10. Backend 504 Gateway Timeout Troubleshooting
+
+![Backend 504 Gateway Timeout](screenshots/10-backend-504-bad-gateway-error.png)
+
+---
+
+## 11. Application Working Output
+
+![Application Working Output](screenshots/11-application-working-output.png)
 
 ---
 
 # Future Improvements
 
-- Configure HTTPS using AWS Certificate Manager (ACM).
-- Integrate Amazon Route 53 with a custom domain.
-- Implement Infrastructure as Code using Terraform.
-- Add AWS Systems Manager (SSM) for EC2 management.
-- Protect the application using AWS WAF.
-- Store database credentials securely using AWS Secrets Manager.
+* Configure HTTPS using AWS Certificate Manager (ACM).
+* Integrate Amazon Route 53 with a custom domain.
+* Implement Infrastructure as Code (IaC) using Terraform.
+* Add AWS Systems Manager (SSM) for EC2 management.
+* Protect the application using AWS WAF.
+* Store database credentials securely using AWS Secrets Manager.
 
 ---
 
@@ -345,4 +351,7 @@ Instances launched by the Auto Scaling Group were unhealthy.
 
 **Sushma**
 
-AWS Cloud | DevOps Enthusiast
+Aspiring Cloud & Devops Engineer 
+
+
+
